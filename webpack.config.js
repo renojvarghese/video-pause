@@ -37,6 +37,12 @@ const images = {
         }
     }
 };
+const videos = {
+    test: /\.(mov|mp4)$/,
+    use: [
+      'file-loader'
+    ]
+}
 const config = {
     entry: { main: "./src/main.js" },
     output: {
@@ -44,7 +50,7 @@ const config = {
         filename: "[name].js"
     },
     module: {
-        rules: [babel, scss, images]
+        rules: [babel, scss, images,videos]
     },
     devServer: {
         contentBase: path.join(__dirname, "/dist/"),
