@@ -8,8 +8,56 @@ let debounce = false;
 // Load the model.
 
 
+const videos = [
+    {
+        name: "spheres",
+        url: "spheres.mp4",
+        times: [
+            0,7
+        ],
+        finished_times:[],
+        idx: 0,
+        stopTime() {
+            return this.times[0];
+        },
+        nextTime() {
+            this.finished_times.push(this.times.shift());
+        },
+        restart() {
+            this.times = this.finished_times;
+            this.finished_times = [];
+        },
+        empty() {
+            return this.times.length <= 0;
+        }
+
+    },
+    {
+        name: "dice",
+        url: "dice.mp4",
+        times: [
+            0,3,6,8,10,12,15,17,19,22,25,27,29,31,34,36,39,41
+        ],
+        finished_times:[],
+        idx: 0,
+        stopTime() {
+            return this.times[0];
+        },
+        nextTime() {
+            this.finished_times.push(this.times.shift());
+        },
+        restart() {
+            this.times = this.finished_times;
+            this.finished_times = [];
+        },
+        empty() {
+            return this.times.length <= 0;
+        }
+
+    },
 
 
+]
 function detect() {
     model.detect(stream).then(predictions => {
         console.log('Predictions: ', predictions); 
@@ -32,34 +80,12 @@ handTrack.load().then(lmodel => {
   
 });
 
-
-import mov from "../static/videos/spheres.mp4";
+// EDIT ME
+import mov from "../static/videos/dice.mp4";
 let video = document.getElementById("video");
 video.onloadedmetadata = function() {
-    vidObj = 
-    {
-        name: "dice",
-        url: "dice.mp4",
-        times: [
-            0,7
-        ],
-        finished_times:[],
-        idx: 0,
-        stopTime() {
-            return this.times[0];
-        },
-        nextTime() {
-            this.finished_times.push(this.times.shift());
-        },
-        restart() {
-            this.times = this.finished_times;
-            this.finished_times = [];
-        },
-        empty() {
-            return this.times.length <= 0;
-        }
-
-    }
+    vidObj = videos[1];
+    
 }
 video.src = mov
 
