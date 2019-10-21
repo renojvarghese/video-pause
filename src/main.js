@@ -1,9 +1,7 @@
 import "./scss/main.scss";
 require.context("../static", true);
-import * as handTrack from 'handtrackjs';
- 
-const stream = document.getElementById("stream");
-let model = null;
+import "./gest"
+
 let debounce = false;
 // Load the model.
 
@@ -58,27 +56,31 @@ const videos = [
 
 
 ]
-function detect() {
-    model.detect(stream).then(predictions => {
-        console.log('Predictions: ', predictions); 
-        if (predictions.length > 0 && !debounce) {
-            ping();
-        }
-    });
-    requestAnimationFrame(detect);
-}
+// function detect() {
+//     model.detect(stream).then(predictions => {
+//         console.log('Predictions: ', predictions); 
+//         if (predictions.length > 0 && !debounce) {
+//             ping();
+//         }
+//     });
+//     requestAnimationFrame(detect);
+// }
 
-handTrack.load().then(lmodel => {
-    console.log("model loaded")
-    model = lmodel;
-  // detect objects in the image.
-  handTrack.startVideo(stream).then(function (status) {
-    console.log("video started", status);
-    detect();
-  });
-  
-  
-});
+// handTrack.load().then(lmodel => {
+//     console.log("model loaded")
+//     model = lmodel;
+//   // detect objects in the image.
+//   handTrack.startVideo(stream).then(function (status) {
+//     console.log("video started", status);
+//     detect();
+//   });
+// });
+
+gest.options.subscribeWithCallback(function(gesture) {
+    if (gesture.direction) {
+        ping();
+    }
+})
 
 // EDIT ME
 import mov from "../static/videos/dice.mp4";
@@ -117,9 +119,9 @@ function ping() {
             debounce = true;
             setTimeout(function() {
                 debounce = false;
-            },10 * 1000);
+            },2 * 1000);
             
     }
 }
-
+gest.start();
 //video.addEventListener("onended", function)
